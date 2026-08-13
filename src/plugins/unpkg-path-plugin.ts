@@ -1,5 +1,19 @@
 import * as esbuild from 'esbuild-wasm';
 import axios from 'axios';
+import localForage from 'localforage';
+
+
+const fileCache = localForage.createInstance({
+  name: 'filecache'
+});
+
+(async () => {
+  await fileCache.setItem('color', 'blue');
+  const color = await fileCache.getItem('color');
+  console.log(color);
+})();
+
+
 
 export const unpkgPathPlugin = () => {
   return {
@@ -14,6 +28,7 @@ export const unpkgPathPlugin = () => {
 
         const rootUrl = 'https://unpkg.com';
         const resolveDir = args.resolveDir;
+
 
         if (args.path.includes('./') || args.path.includes('../')) {
           return {
@@ -42,14 +57,25 @@ export const unpkgPathPlugin = () => {
           };
         }
 
+        const cacheResult = await
+          fileCache.getItem<esbuild.OnLoadResult>(args.path);
+
+        if (cacheResult) {
+          return cacheResult;
+        }
+
         const { data, request } = await axios.get(args.path);
         console.log('data', data);
 
-        return {
+        const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents: data,
-          resolveDir: new URL('./', request.responseURL).pathname,
-        }
+          resolveDir: new URL('./', request.responseURL).pathname
+        };
+
+        await fileCache.setItem(args.path, result);
+
+        return result;
       });
     },
   };
