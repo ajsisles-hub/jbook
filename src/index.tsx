@@ -20,15 +20,12 @@ const App = () => {
       worker: true,
       wasmURL: '/esbuild.wasm'
     });
-
-
   };
 
 
   const onChangeEvent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
   };
-
 
 
   const onClick = async () => {
