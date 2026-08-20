@@ -41,7 +41,8 @@ const App = () => {
         'process.env.NODE_ENV': '"production"',
         global: 'window'
       },
-    })
+    }).replace(/\n$/, '');
+
     console.log(result)
 
     if (iframe.current && iframe.current.contentWindow) {

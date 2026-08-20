@@ -3,6 +3,7 @@ import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import prettier from 'prettier/standalone';
 import parserBabel from 'prettier/plugins/babel';
 import parserEstree from 'prettier/plugins/estree';
+import './code-editor.css';
 
 
 
@@ -52,16 +53,19 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
 
 
   return (
-    <div>
-      <button className='button is-warning'
+    <div className='editor-wrapper'>
+      <button
+        className='button button-format is-warning is-small'
         onClick={onFormatClick}
-      >Format</button>
+      >
+        Format
+      </button>
       <MonacoEditor
         value={initialValue}
         onChange={handleEditorChange}
         onMount={handleEditorDidMount}
-        height="500px"
-        width="500px"
+        height="100%"
+        width="100%"
         theme="vs-dark"
         defaultLanguage='javascript'
         options={{
@@ -75,9 +79,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
           lineNumbersMinChars: 3,
           scrollBeyondLastLine: false,
           automaticLayout: true
-        }} />
+        }}
+      />
     </div>
   );
+
 };
 
 export default CodeEditor;
