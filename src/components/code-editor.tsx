@@ -1,9 +1,11 @@
-
 import { useRef } from 'react';
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import prettier from 'prettier/standalone';
 import parserBabel from 'prettier/plugins/babel';
 import parserEstree from 'prettier/plugins/estree';
+
+
+
 interface CodeEditorProps {
   initialValue: string;
   onChange(value: string): void;
@@ -51,7 +53,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
 
   return (
     <div>
-      <button onClick={onFormatClick}>Format</button>
+      <button className='button is-warning'
+        onClick={onFormatClick}
+      >Format</button>
       <MonacoEditor
         value={initialValue}
         onChange={handleEditorChange}
@@ -73,8 +77,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
           automaticLayout: true
         }} />
     </div>
-  )
-
+  );
 };
 
 export default CodeEditor;
