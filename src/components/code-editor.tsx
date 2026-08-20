@@ -16,13 +16,11 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
   const editorRef = useRef<any>();
 
   const handleEditorDidMount: OnMount = (editor) => {
-    console.log('Initial value:', editor.getValue());
     editorRef.current = editor;
   };
 
   const handleEditorChange = (value: string | undefined) => {
     const updatedValue = value ?? '';
-    console.log('Current value:', updatedValue);
     onChange(updatedValue);
   };
 
