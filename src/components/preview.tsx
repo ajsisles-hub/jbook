@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import './preview.css';
 interface PreviewProps {
   code: string;
+  err: string;
 
 };
 
@@ -11,15 +12,23 @@ const html = `
     <body>
       <div id="root"></div>
       <script>
+        const handleError = (err) => {
+          const root = document.querySelector('#root');
+          root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
+          console.error(err);
+        };
+
+        // Catch async unhandled errors (e.g., setTimeout, Promise rejections)
+        window.addEventListener('error', (event) => {
+          event.preventDefault();
+          handleError(event.error);
+        });
+
         window.addEventListener('message', (event) => {
           try {
-            // Clear previous render state
-            document.querySelector('#root').innerHTML = '';
             eval(event.data);
           } catch (err) {
-            const root = document.querySelector('#root');
-            root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err.message + '</div>';
-            console.error(err);
+            handleError(err);
           }
         }, false);
       </script>
@@ -27,22 +36,42 @@ const html = `
   </html>
 `;
 
-const Preview: React.FC<PreviewProps> = ({ code }) => {
+const Preview: React.FC<PreviewProps> = ({ code, err }) => {
   const iframe = useRef<any>();
 
   useEffect(() => {
+    // Reset iframe content on every bundle update
     iframe.current.srcdoc = html;
-    iframe.current.contentWindow.postMessage(code, '*');
-  });
+
+    const timer = setTimeout(() => {
+      if (err) {
+        // If there's a build/syntax error, 
+        // send code that immediately invokes handleError inside iframe
+        iframe.current.contentWindow.postMessage(
+          `handleError(${JSON.stringify(err)});`,
+          '*'
+        );
+      } else {
+        // Otherwise, run the bundled user code
+        iframe.current.contentWindow.postMessage(code, '*');
+      }
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [code, err]); // Watch both code and err updates!
 
   return (
     <div className='preview-wrapper'>
       <iframe
-        title='preview' ref={iframe}
+        title='preview'
+        ref={iframe}
         sandbox='allow-scripts'
-        srcDoc={html} />
+        srcDoc={html}
+      />
+      {/* Display esbuild compilation/syntax errors in an overlay
+      {err && <div className="preview-error">{err}</div>} */}
     </div>
-  )
+  );
 };
 
 

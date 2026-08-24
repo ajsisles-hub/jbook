@@ -1,13 +1,28 @@
-import { useState } from 'react';
-// import bundle from '../bundler';
+import { useState, useEffect } from 'react';
+import bundle from '../bundler';
 import CodeEditor from './code-editor';
 import Preview from './preview';
 import Resizable from './resizable';
 
 const CodeCell = () => {
-  const [input, setInput] = useState('');
-  const [code] = useState('');
+  // 1. Initialize input state with the default code value
+  const [input, setInput] = useState('const a = 1;');
+  const [code, setCode] = useState('');
+  const [err, setErr] = useState('');
 
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      const output = await bundle(input);
+      setCode(output.code);
+      setErr(output.err);
+    }, 750);
+
+    // 2. Clear timeout on every keystroke to debounce correctly
+    return () => {
+      clearTimeout(timer);
+    };
+
+  }, [input]);
 
 
 
@@ -20,7 +35,7 @@ const CodeCell = () => {
             onChange={(value) => setInput(value)}
           />
         </Resizable>
-        <Preview code={code} />
+        <Preview code={code} err={err} />
       </div>
     </Resizable>
   );
