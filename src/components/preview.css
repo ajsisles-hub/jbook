@@ -18,3 +18,17 @@
   left: 0;
   opacity: 0;
 }
+
+.preview-error {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  color: #ff5555;
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-family: monospace;
+  white-space: pre-wrap; /* Preserves esbuild error formatting */
+  z-index: 10;
+  pointer-events: none;
+}

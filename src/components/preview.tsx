@@ -15,15 +15,12 @@ const html = `
         const handleError = (err) => {
           const root = document.querySelector('#root');
           root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
-          console.error(err);
         };
-
         // Catch async unhandled errors (e.g., setTimeout, Promise rejections)
         window.addEventListener('error', (event) => {
           event.preventDefault();
           handleError(event.error);
         });
-
         window.addEventListener('message', (event) => {
           try {
             eval(event.data);
@@ -40,25 +37,18 @@ const Preview: React.FC<PreviewProps> = ({ code, err }) => {
   const iframe = useRef<any>();
 
   useEffect(() => {
-    // Reset iframe content on every bundle update
+    // Reset iframe HTML document on every update
     iframe.current.srcdoc = html;
 
-    const timer = setTimeout(() => {
-      if (err) {
-        // If there's a build/syntax error, 
-        // send code that immediately invokes handleError inside iframe
-        iframe.current.contentWindow.postMessage(
-          `handleError(${JSON.stringify(err)});`,
-          '*'
-        );
-      } else {
-        // Otherwise, run the bundled user code
+    // Only post valid code down to the iframe when there are no bundle errors
+    if (!err) {
+      const timer = setTimeout(() => {
         iframe.current.contentWindow.postMessage(code, '*');
-      }
-    }, 50);
+      }, 50);
 
-    return () => clearTimeout(timer);
-  }, [code, err]); // Watch both code and err updates!
+      return () => clearTimeout(timer);
+    }
+  }, [code, err]); // Watch BOTH code and err
 
   return (
     <div className='preview-wrapper'>
@@ -68,12 +58,10 @@ const Preview: React.FC<PreviewProps> = ({ code, err }) => {
         sandbox='allow-scripts'
         srcDoc={html}
       />
-      {/* Display esbuild compilation/syntax errors in an overlay
-      {err && <div className="preview-error">{err}</div>} */}
+      {/* Display esbuild compilation/syntax errors in an overlay */}
+      {err && <div className="preview-error">{err}</div>}
     </div>
   );
 };
-
-
 
 export default Preview;

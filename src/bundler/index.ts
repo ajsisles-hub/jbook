@@ -32,16 +32,11 @@ const bundle = async (rawCode: string) => {
     };
 
   } catch (err: any) {
-    if (err instanceof Error) {
-      return {
-        code: '',
-        err: err.message
-      }
-    } else {
-      throw err;
-    }
+    return {
+      code: '',
+      err: err.message,
+    };
   }
-
 };
 
 export default bundle;
