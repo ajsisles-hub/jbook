@@ -64,7 +64,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
         onMount={handleEditorDidMount}
         theme="vs-dark"
         defaultLanguage='javascript'
-        height="500px"
+        height="100%"
         options={{
           tabSize: 2,
           insertSpaces: true,
