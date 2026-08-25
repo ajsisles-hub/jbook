@@ -4,32 +4,26 @@ import './text-editor.css';
 
 const TextEditor: React.FC = () => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>('# Header\n\n- Bullet item 1\n- Bullet item 2');
   const [editing, setEditing] = useState(false);
-
 
   useEffect(() => {
     const listener = (event: MouseEvent) => {
-      if (ref.current && event.target &&
-        ref.current.contains(event.target as Node)) {
-
+      if (ref.current && event.target && ref.current.contains(event.target as Node)) {
         return;
-
       }
       setEditing(false);
-    }
+    };
 
     document.addEventListener('click', listener, { capture: true });
-
     return () => {
       document.removeEventListener('click', listener, { capture: true });
-    }
+    };
   }, []);
-
 
   if (editing) {
     return (
-      <div className='text-editor' ref={ref}>
+      <div className='text-editor' ref={ref} data-color-mode="dark">
         <MDEditor
           value={value}
           onChange={(val) => setValue(val || '')}
@@ -39,10 +33,14 @@ const TextEditor: React.FC = () => {
   }
 
   return (
-    <div className='text-editor' onClick={() => setEditing(true)}>
-      <MDEditor.Markdown source={'# Header'} />
+    <div className='text-editor-preview text-preview card'
+      data-color-mode="dark"
+      onClick={() => setEditing(true)}>
+      <div className='card-content'>
+        {/* Pass `value` here instead of hardcoding '# Header' */}
+        <MDEditor.Markdown source={value} />
+      </div>
     </div>
-
   );
 };
 

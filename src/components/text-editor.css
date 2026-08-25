@@ -1,27 +1,102 @@
-.w-md-editor .title {
-  line-height: unset;
-  font-size: unset;
-  font-weight: unset;
+/* Base container dark mode theme variable overrides */
+.text-editor[data-color-mode='dark'] {
+  --color-canvas-default: #202123 !important;
+  --color-canvas-subtle: #2b3036 !important;
+  --color-border-default: #37414b !important;
+  --color-border-muted: #37414b !important;
+  --color-fg-default: #d4d4d4 !important;
 }
 
-.text-editor .w-md-editor-bar svg {
-  display: none;
+/* Editor Main Box Overrides */
+.text-editor .w-md-editor {
+  background-color: #202123 !important;
+  color: #d4d4d4 !important;
 }
 
+.text-editor .w-md-editor-toolbar {
+  background-color: #37414b !important;
+  border-bottom: 1px solid #4f5b66 !important;
+}
+
+.text-editor .w-md-editor-toolbar li button {
+  color: #d4d4d4 !important;
+}
+
+/* Fix syntax highlighting title / headers */
+.text-editor .w-md-editor .title,
+.text-editor .w-md-editor .token.title,
+.text-editor .w-md-editor-text-pre .title {
+  background-color: transparent !important;
+  color: #d4d4d4 !important;
+}
+
+/* Resize Bar Styling */
 .text-editor .w-md-editor-bar {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
   height: 11px;
   cursor: row-resize;
   background-color: #37414b;
   background-repeat: no-repeat;
   background-position: 50%;
   width: 100%;
-  position: relative;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
 }
 
-.wmde-markdown-var .w-md-editor .w-md-editor-show-live {
-  padding-bottom: 0;
+.text-editor .w-md-editor-bar svg {
+  display: none;
 }
-.w-md-editor-content {
-  flex: 1 1 auto !important;
+
+/* Preview Markdown & Table Dark Theme Fixes */
+.text-editor .wmde-markdown {
+  background-color: #202123 !important;
+  color: #d4d4d4 !important;
+}
+
+.text-editor .wmde-markdown table tr {
+  background-color: #202123 !important;
+  border-top: 1px solid #37414b !important;
+}
+
+.text-editor .wmde-markdown table tr:nth-child(2n) {
+  background-color: #2b3036 !important; /* Subtly shaded zebra striping */
+}
+
+.text-editor .wmde-markdown table th,
+.text-editor .wmde-markdown table td {
+  border: 1px solid #37414b !important;
+  color: #d4d4d4 !important;
+}
+
+/* List Formatting */
+.text-editor .wmde-markdown ul {
+  list-style: disc !important;
+  padding-left: 2rem !important;
+}
+
+.text-editor .wmde-markdown ol {
+  list-style: decimal !important;
+  padding-left: 2rem !important;
+}
+
+.text-editor .wmde-markdown li {
+  display: list-item !important;
+}
+
+.text-editor .wmde-markdown li::marker {
+  color: #d4d4d4 !important;
+}
+
+.text-editor-preview {
+  background-color: #1f2d3b !important;
+  color: #d4d4d4;
+}
+.text-editor-preview .wmde-markdown.wmde-markdown-color {
+  background-color: #1f2d3b !important;
+  color: #d4d4d4 !important;
+}
+
+.text-editor-preview .wmde-markdown ul {
+  list-style-type: disc !important;
+  padding-left: 2rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
 }
