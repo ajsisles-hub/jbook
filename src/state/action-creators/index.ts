@@ -4,7 +4,6 @@ import {
   UpdateCellAction,
   DeleteCellAction,
   MoveCellAction,
-  Action,
   Direction,
 } from '../actions';
 import { CellTypes } from '../cell';
