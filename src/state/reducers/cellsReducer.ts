@@ -1,6 +1,6 @@
 import { ActionType } from '../action-types';
 import { Action } from '../actions';
-import { Cell, CellTypes } from '../cell';
+import { Cell } from '../cell';
 
 
 
