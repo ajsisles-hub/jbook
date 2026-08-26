@@ -4,7 +4,6 @@ import { Cell } from '../cell';
 import { produce } from 'immer';
 
 
-
 interface CellState {
   loading: boolean;
   error: string | null;
@@ -14,15 +13,12 @@ interface CellState {
   }
 };
 
-
-
 const initialState: CellState = {
   loading: false,
   error: null,
   order: [],
   data: {}
 };
-
 
 
 const reducer = produce((
@@ -38,7 +34,6 @@ const reducer = produce((
         content: '',
 
       };
-
 
       // create cell
       state.data[cell.id] = cell;
