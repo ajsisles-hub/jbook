@@ -4,7 +4,7 @@ import './text-editor.css';
 
 const TextEditor: React.FC = () => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [value, setValue] = useState<string>('# Header\n\n- Bullet item 1\n- Bullet item 2');
+  const [value, setValue] = useState<string>('# Header');
   const [editing, setEditing] = useState(false);
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const TextEditor: React.FC = () => {
       data-color-mode="dark"
       onClick={() => setEditing(true)}>
       <div className='card-content'>
-        {/* Pass `value` here instead of hardcoding '# Header' */}
         <MDEditor.Markdown source={value} />
       </div>
     </div>
