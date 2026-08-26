@@ -1,6 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import 'bulmaswatch/superhero/bulmaswatch.min.css';
 import TextEditor from './components/text-editor';
+import { Provider } from 'react-redux';
+import { store } from './state';
+
 const App = () => {
 
 
@@ -17,8 +20,10 @@ const App = () => {
 
   return (
     <div>
+      <Provider store={store}>
+        <TextEditor />
+      </Provider>
 
-      <TextEditor />
     </div>);
 };
 
